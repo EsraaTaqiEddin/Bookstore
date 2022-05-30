@@ -1,0 +1,127 @@
+﻿@model VmCountry
+@{
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+@section Head{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".EditCountry").click(function () {
+                var AuthorId = $(this).parents().eq(1).find('.countryid').text();
+                $.ajax({
+                    type: 'get',
+                    url: '/Bookstore/Country/EditCountry?CountryID=' + AuthorId,
+                    success: function (data) {
+                        debugger;
+                        $('#name').val(data.name);
+                        $('#Nationality').val(data.nationality);
+                        $('#countryid').val(data.id);
+
+                    },
+                    error: function () {
+                        alert('error')
+                    }
+                });
+                $('#UpdateBtn').show();
+                $('#SaveBtn').hide();
+                $('.Validation').empty();
+                $('#exampleModal').modal('show');
+            });
+
+
+            $('#NewItem').click(function () {
+                $('#name').val('');
+                $('#Nationality').val('');
+                $('#countryid').val('');
+                $('#UpdateBtn').hide();
+                $('#SaveBtn').show();
+
+                $('#exampleModal').modal('show');
+            })
+        });
+
+
+    </script>
+}
+@section Body{
+    <form method="post">
+        <div class="row">
+            <div class="col-12">
+                <button id="NewItem" type="button" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    New Country <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                    </svg>
+                </button>
+            </div>
+
+
+            <div class="col-sm-10 col-xl-10 col-lg-10 col-md-10 col-xs-8" style="margin-left: 20px;">
+                <h3 class="mb-4">All Countries</h3>
+
+                <div class="rounded h-100 p-4 tableContainer shadow-lg">
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Country Name</th>
+                                    <th scope="col">Nationality</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.LiCountries)
+                                {
+                                    <tr>
+                                        <th scope="row" class="countryid">@item.ID</th>
+                                        <td>@item.Name</td>
+                                        <td>@item.Nationality</td>
+                                        <td>
+                                            <a class="EditCountry" title="Edit"><i class="fa fa-edit Edit"></i></a>
+                                            <a title="Delete" class="DeleteBtn" asp-action="DeleteCountry" asp-route-CountryID="@item.ID"><i class="fa fa-times Delete"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel" style="color:white !important;">Country</h5>
+                            <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close" style="color:white !important;">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Country Name" asp-for="country.Name" id="name">
+                                <input type="hidden" asp-for="country.ID" id="countryid" />
+                            </div>
+                            <span class="Validation" asp-validation-for="country.Name" style="color:red"></span>
+
+                            <div class="input-group mb-3" style="margin-top:5px;">
+                                <input type="text" class="form-control" placeholder="Category Code" id="Nationality" asp-for="country.Nationality">
+                            </div>
+                            <span class="Validation" asp-validation-for="country.Nationality" style="color:red"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="SaveBtn" type="submit" class="btn btn-dark" asp-action="Save">Save</button>
+                            <button id="UpdateBtn" style="display:none" type="submit" class="btn btn-dark" asp-action="Update">Update</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+}

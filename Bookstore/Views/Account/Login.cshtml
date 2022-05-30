@@ -1,0 +1,163 @@
+﻿@model SignInModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bookstore 101 Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/css/LoginStyle.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</head>
+<body id="myPage">
+
+
+    <div style="margin-top:120px;">
+        <div class="container">
+            <div class=" signIn" style="background: black; ">
+                <h4 style="background-color: transparent;"><span class="glyphicon glyphicon-lock"></span>Sign In</h4>
+            </div>
+
+        </div>
+
+        <div class="row signIn text-center" style="background-color:white; margin:0 auto;height: 400px;">
+            <form style="margin-top:50px">
+                <div>@ViewData["errorMessage"]</div>
+                <div class="wrap-input100 validate-input m-b-16">
+
+                    <input class="input100" type="text" asp-for="Username" placeholder="Username">
+                    <span class="focus-input100"></span> <span class="symbol-input100"> <span class="glyphicon glyphicon-user"></span> </span>
+                </div>
+                <div class="wrap-input100 validate-input m-b-16">
+                    <input class="input100" type="password" asp-for="Password" placeholder="Password">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <span class="glyphicon glyphicon-lock">
+
+                        </span>
+                    </span>
+                </div>
+                <div class="flex-sb-m w-full p-b-30">
+                    <div class="contact100-form-checkbox">
+                        <input type="checkbox" asp-for="Rememberme">
+                        <label for="ckb1">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-block" asp-action="checkPassword">
+                            Sign In
+                            <span class="glyphicon glyphicon-ok" style="width:50px"></span>
+                        </button>
+                        <!--<a data-toggle="modal" data-target="#myModal" style="color:#686868; text-decoration: none;cursor: pointer;">
+
+                You Don't Have an account?
+            </a>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:black !important; color:white !important;">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 style="background-color: transparent;"><span class="glyphicon glyphicon-lock"></span>Sign Up</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" type="text" placeholder="Name">
+                            <span class="focus-input100"></span> <span class="symbol-input100"> <span class="glyphicon glyphicon-user"></span> </span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" type="text" placeholder="Phone">
+                            <span class="focus-input100"></span> <span class="symbol-input100"> <span class="glyphicon glyphicon-phone"></span> </span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" type="text" placeholder="Email">
+                            <span class="focus-input100"></span> <span class="symbol-input100"> <span class="glyphicon glyphicon-envelope"></span> </span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <select class="input100">
+                                <option>Choose Nationality</option>
+                                <option>tt</option>
+                                <option>tt</option>
+                                <option>ytr</option>
+                            </select>
+                            <span class="focus-input100"></span> <span class="symbol-input100"> <span class="glyphicon glyphicon-map-marker"></span> </span>
+                        </div>
+
+
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" type="password" placeholder="Password">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <span class="glyphicon glyphicon-lock">
+
+                                </span>
+                            </span>
+                        </div>
+
+
+
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" type="password" placeholder=" Confirm Password">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <span class="glyphicon glyphicon-lock">
+
+                                </span>
+                            </span>
+                        </div>
+                        <button type="submit" class="btn btn-block">
+                            Sign Up
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default pull-left" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+        </a><br><br>
+        <p>
+            made by <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-balloon-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8.49 10.92C19.412 3.382 11.28-2.387 8 .986 4.719-2.387-3.413 3.382 7.51 10.92l-.234.468a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2.376 2.376 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224l-.235-.468ZM6.726 1.269c-1.167-.61-2.8-.142-3.454 1.135-.237.463-.36 1.08-.202 1.85.055.27.467.197.527-.071.285-1.256 1.177-2.462 2.989-2.528.234-.008.348-.278.14-.386Z" />
+            </svg> Esra'a
+        </p>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+

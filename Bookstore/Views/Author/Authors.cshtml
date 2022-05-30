@@ -1,0 +1,150 @@
+﻿@model VmAuthors
+@{
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+@section Head{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".EditAutor").click(function () {
+                var AuthorId = $(this).parents().eq(1).find('.Authorid').text();
+                $.ajax({
+                    type: 'get',
+                    url: '/Bookstore/Author/EditAuthor?AuthorID=' + AuthorId,
+                    success: function (data) {
+                        debugger;
+                        $('#FName').val(data.fName);
+                        $('#LName').val(data.lName);
+                        $('#country_id').val(data.country_Id);
+                        $('#AuthorId').val(data.id);
+                        $('#imagePath').val(data.imagePath);
+
+                    },
+                    error: function () {
+                        alert('error')
+                    }
+                });
+                $('#UpdateBtn').show();
+                $('#SaveBtn').hide();
+                $('.Validation').empty();
+                $('#exampleModal').modal('show');
+            });
+
+
+            $('#NewItem').click(function () {
+                $('#FName').val('');
+                $('#LName').val('');
+                $('#country_id option:first').prop('selected', true);
+                $('#AuthorId').val('');
+                $('#imagePath').val('');
+                $('#UpdateBtn').hide();
+                $('#SaveBtn').show();
+
+                $('#exampleModal').modal('show');
+            })
+        });
+
+
+    </script>
+}
+@section Body{
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-add" id="NewItem">
+                    New Author <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                    </svg>
+                </button>
+            </div>
+
+
+            <div class="col-sm-10 col-xl-10 col-lg-10 col-md-10 col-xs-8" style="margin-left: 20px;">
+                <h3 class="mb-4">All Authors</h3>
+
+                <div class="rounded h-100 p-4 tableContainer shadow-lg">
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Images</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Nationality</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.LiAuthors)
+                                {
+                                    <tr>
+                                        <th scope="row" class="Authorid">@item.ID</th>
+                                        <td><img src="@item.ImagePath" style="width: 80px; height:80px; border-radius: 50px;object-fit: cover;"></td>
+                                        <td>@item.FName @item.LName</td>
+                                        <td>@item.country.Nationality</td>
+                                        <td>
+                                            <a class="EditAutor" title="Edit"><i class="fa fa-edit Edit"></i></a>
+                                            <a title="Delete" class="DeleteBtn" asp-action="DeleteAuthor" asp-route-AuthorID="@item.ID"><i class="fa fa-times Delete"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel" style="color:white !important;">Author</h5>
+                            <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close" style="color:white !important;">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="First Name" asp-for="author.FName" id="FName">
+                                <input type="hidden" asp-for="author.ID" id="AuthorId" />
+                                <input type="hidden" asp-for="author.ImagePath" id="imagePath" />
+                            </div>
+                            <span class="Validation" asp-validation-for="author.FName" style="color:red"></span>
+
+
+                            <div class="input-group mb-3" style="margin-top:5px;">
+                                <input type="text" class="form-control" placeholder="Last Name" asp-for="author.LName" id="LName">
+                            </div>
+                            <span class="Validation" asp-validation-for="author.LName" style="color:red"></span>
+
+
+                            <div class="input-group mb-3" style="margin-top:5px;">
+                                <select class="form-control form-select" style="background-color:inherit" asp-items='new SelectList(Model.LiCountries,"ID","Nationality")' asp-for="author.Country_Id" id="country_id">
+                                </select>
+                            </div>
+
+
+                            <div class="input-group mb-3" style="margin-top:5px;">
+                                <input type="file" class="form-control" placeholder="Upload Image" style="display:none" id="Image" asp-for="author.Image">
+                                <label class="btn btn-dark" for="Image">Upload Image</label>
+                            </div>
+                            <span class="Validation" asp-validation-for="author.Image" style="color:red"></span>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="SaveBtn" type="submit" class="btn btn-dark" asp-action="Save">Save</button>
+                            <button id="UpdateBtn" style="display:none" type="submit" class="btn btn-dark" asp-action="Update">Update</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        </form>
+    }
